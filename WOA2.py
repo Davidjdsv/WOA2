@@ -15,23 +15,43 @@ LOS CLANES TENDRÁN UN COLOR MORADO'''
 
 #--INICIO FUNCIONES--
 
+def verificar_nombre(nombre, lista_personajes, lista_clanes):
+    for personaje in lista_personajes:
+        if personaje.nombre == nombre:
+            print(f"The name '{nombre}'already in use by another character.")
+            return False
+    for clan in lista_clanes:
+        if clan.nombre == nombre:
+            print(f"The name '{nombre}' is already in use by another clan.")
+            return False
+    return True
+
 def crearGuerrero(titulo, color = Fore.RED):
-    nombre = input(f"Name of the {color} {titulo} {Style.RESET_ALL}: ").upper()
-    guerrero = Guerrero(nombre)
-    guerreros.append(guerrero)
-    return guerrero
+    while True:
+        nombre = input(f"Name of the {color} {titulo} {Style.RESET_ALL}: ").upper()
+        if verificar_nombre(nombre, lista_personajes, clanes):
+            guerrero = Guerrero(nombre)
+            guerreros.append(guerrero)
+            return guerrero
+        print("Por favor, elige otro nombre.")
 
 def crearMago(titulo, color = Fore.GREEN):
-    nombre = input(f"Name of the {color}  {titulo} {Style.RESET_ALL}: ").upper()
-    mago = Mago(nombre)
-    magos.append(mago)
-    return mago
+    while True:
+        nombre = input(f"Name of the {color} {titulo} {Style.RESET_ALL}: ").upper()
+        if verificar_nombre(nombre, lista_personajes, clanes):
+            mago = Mago(nombre)
+            magos.append(mago)
+            return mago
+        print("Por favor, elige otro nombre.")
 
-def crearArquero(titulo,color = Fore.CYAN):
-    nombre = input(f"Name of the {color} {titulo} {Style.RESET_ALL}: ").upper()
-    arquero = Arquero(nombre)
-    arqueros.append(arquero)
-    return arquero
+def crearArquero(titulo, color = Fore.CYAN):
+    while True:
+        nombre = input(f"Name of the {color} {titulo} {Style.RESET_ALL}: ").upper()
+        if verificar_nombre(nombre, lista_personajes, clanes):
+            arquero = Arquero(nombre)
+            arqueros.append(arquero)
+            return arquero
+        print("Please choose another name.")
 
 def crearFundador(mago,color = Fore.BLUE):
     text_speed(f"Your destiny is to be a {color} founder {Style.RESET_ALL} in these wastelands of Pythonias...")
@@ -41,10 +61,14 @@ def crearFundador(mago,color = Fore.BLUE):
     return fundador
 
 def crearClan(fundador):
-    nombreClan = input("clan's name: ").upper()
-    clan = Clan(nombreClan, fundador)
-    clanes.append(clan)
-    fundador.asignar_clan(nombreClan)
+    while True:
+        nombreClan = input("Clan's name: ").upper()
+        if verificar_nombre(nombreClan, lista_personajes, clanes):
+            clan = Clan(nombreClan, fundador)
+            clanes.append(clan)
+            fundador.asignar_clan(nombreClan)
+            return clan
+        print("The clan name is already in use. Please choose another name.")
     
 def buscarClan(clanes, jugador):
     for clan_personaje in clanes:
